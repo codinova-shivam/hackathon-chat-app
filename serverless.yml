@@ -1,0 +1,24 @@
+service: ui
+app: hackathon-chat-api
+org: codinova
+
+frameworkVersion: '2'
+variablesResolutionMode: 20210326
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-south-1
+  stage: dev
+
+
+plugins:
+  - serverless-finch
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  client:
+    bucketName: hackathon-chat-ui-${self:custom.stage}
+    distributionFolder: dist
+    indexDocument: index.html
+    errorDocument: index.html
