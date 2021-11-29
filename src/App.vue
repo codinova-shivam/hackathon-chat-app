@@ -1,30 +1,50 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <amplify-authenticator username-alias="phone_number">
+    <!-- eslint-disable -->
+    <amplify-sign-up
+      slot="sign-up"
+      username-alias="phone_number"
+      :formFields="signUpInformFields"
+    ></amplify-sign-up>
+    <amplify-sign-in
+      slot="sign-in"
+      username-alias="phone_number"
+    ></amplify-sign-in>
+    <!-- eslint-enable -->
+    <amplify-sign-out></amplify-sign-out>
+  </amplify-authenticator>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import { FormFieldTypes } from "@aws-amplify/ui-components";
+import { defineComponent } from "vue";
 
-nav {
-  padding: 30px;
+export default defineComponent({
+  name: "App",
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+  data() {
+    return {
+      signUpInformFields: [] as FormFieldTypes,
+    };
+  },
+  mounted() {
+    setTimeout(() => {
+      this.signUpInformFields = [
+        {
+          type: "name",
+          placeholder: "Enter your name",
+          required: true,
+          label: "Name",
+        },
+        {
+          type: "phone_number",
+        },
+        {
+          type: "password",
+          required: true,
+        },
+      ] as FormFieldTypes;
+    }, 1);
+  },
+});
+</script>
