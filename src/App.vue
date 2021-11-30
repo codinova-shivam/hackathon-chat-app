@@ -12,7 +12,14 @@
     >
       <div slot="federated-buttons"></div>
     </amplify-sign-in>
-    <amplify-sign-out></amplify-sign-out>
+     <amplify-forgot-password
+     :form-fields.prop="resetPasswordFormFields"
+    slot="forgot-password"
+  ></amplify-forgot-password>
+    <amplify-greetings
+      v-if="user"
+      :username="user.attributes.phone_number"
+    ></amplify-greetings>
     <chat-window
       :current-user-id="currentUserId"
       :rooms="rooms"
@@ -24,11 +31,15 @@
 <script>
 import ChatWindow from "vue-advanced-chat";
 import "vue-advanced-chat/dist/vue-advanced-chat.css";
-const signInFormFields = [
-  {
+import { onAuthUIStateChange } from "@aws-amplify/ui-components";
+const resetPasswordFormFields = [
+    {
     type: "phone_number",
-    dialCode: 91,
+    dialCode: "+91",
   },
+]
+const signInFormFields = [
+...resetPasswordFormFields,
   {
     type: "password",
     required: true,
@@ -39,8 +50,21 @@ export default {
   components: {
     ChatWindow,
   },
+  created() {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
+      this.authState = authState;
+      this.user = authData;
+    });
+  },
+  beforeDestroy() {
+    this.unsubscribeAuth();
+  },
   data() {
     return {
+      user: undefined,
+      authState: undefined,
+      unsubscribeAuth: undefined,
+      resetPasswordFormFields,
       rooms: [
         {
           roomId: 1,
@@ -87,4 +111,11 @@ export default {
   },
 };
 </script>
+<style >
+:root {
+  --amplify-primary-color: #4791ff;
+  --amplify-primary-tint: #598eff;
+  --amplify-primary-shade: #563ee0;
+}
+</style>
 
