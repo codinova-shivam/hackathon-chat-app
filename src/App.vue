@@ -5,7 +5,11 @@
       username-alias="phone_number"
       :form-fields.prop="signUpformFields"
     ></amplify-sign-up>
-    <amplify-sign-in slot="sign-in" username-alias="phone_number">
+    <amplify-sign-in
+      slot="sign-in"
+      :form-fields.prop="signInFormFields"
+      username-alias="phone_number"
+    >
       <div slot="federated-buttons"></div>
     </amplify-sign-in>
     <amplify-sign-out></amplify-sign-out>
@@ -20,6 +24,16 @@
 <script>
 import ChatWindow from "vue-advanced-chat";
 import "vue-advanced-chat/dist/vue-advanced-chat.css";
+const signInFormFields = [
+  {
+    type: "phone_number",
+    dialCode: 91,
+  },
+  {
+    type: "password",
+    required: true,
+  },
+];
 export default {
   name: "App",
   components: {
@@ -59,6 +73,7 @@ export default {
       ],
       messages: [],
       currentUserId: 1234,
+      signInFormFields,
       signUpformFields: [
         {
           type: "name",
@@ -66,13 +81,7 @@ export default {
           required: true,
           label: "Name",
         },
-        {
-          type: "phone_number",
-        },
-        {
-          type: "password",
-          required: true,
-        },
+        ...signInFormFields,
       ],
     };
   },
