@@ -1,4 +1,4 @@
-# ui-v2
+# ui
 
 ## Project setup
 ```
