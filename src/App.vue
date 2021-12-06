@@ -13,6 +13,7 @@
       <div slot="federated-buttons"></div>
     </amplify-sign-in>
      <amplify-forgot-password
+      username-alias="phone_number"
      :form-fields.prop="resetPasswordFormFields"
     slot="forgot-password"
   ></amplify-forgot-password>
