@@ -1,0 +1,7 @@
+export const MUTATION_TYPES = {
+    USER:{
+        SET_USER:'SET_USER',
+        SET_FRIENDS:'SET_FRIENDS',
+        SET_FRIENDS_LOADING:'SET_FRIENDS_LOADING'
+    }
+}

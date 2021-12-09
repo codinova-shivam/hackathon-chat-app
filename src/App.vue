@@ -12,49 +12,46 @@
     >
       <div slot="federated-buttons"></div>
     </amplify-sign-in>
-     <amplify-forgot-password
+    <amplify-forgot-password
       username-alias="phone_number"
-     :form-fields.prop="resetPasswordFormFields"
-    slot="forgot-password"
-  ></amplify-forgot-password>
-    <amplify-greetings
-      v-if="user"
-      :username="user.attributes.phone_number"
-    ></amplify-greetings>
-    <chat-window
-      :current-user-id="currentUserId"
-      :rooms="rooms"
-      :messages="messages"
-    />
+      :form-fields.prop="resetPasswordFormFields"
+      slot="forgot-password"
+    ></amplify-forgot-password>
+    <div v-if="user">
+      <layout />
+    </div>
   </amplify-authenticator>
 </template>
 
 <script>
-import ChatWindow from "vue-advanced-chat";
-import "vue-advanced-chat/dist/vue-advanced-chat.css";
 import { onAuthUIStateChange } from "@aws-amplify/ui-components";
 const resetPasswordFormFields = [
-    {
+  {
     type: "phone_number",
     dialCode: "+91",
   },
-]
+];
 const signInFormFields = [
-...resetPasswordFormFields,
+  ...resetPasswordFormFields,
   {
     type: "password",
     required: true,
   },
 ];
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapMutations } = createNamespacedHelpers("user");
+import { MUTATION_TYPES } from "./store/mutations";
+import Layout from "./components/Layout.vue";
 export default {
   name: "App",
   components: {
-    ChatWindow,
+    Layout,
   },
   created() {
-    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
-      this.authState = authState;
-      this.user = authData;
+    this.unsubscribeAuth = onAuthUIStateChange((_, authData) => {
+      if (authData?.attributes) {
+        this.setUser(authData.attributes);
+      }
     });
   },
   beforeDestroy() {
@@ -62,42 +59,8 @@ export default {
   },
   data() {
     return {
-      user: undefined,
-      authState: undefined,
       unsubscribeAuth: undefined,
       resetPasswordFormFields,
-      rooms: [
-        {
-          roomId: 1,
-          roomName: "Room 1",
-          avatar: "assets/imgs/people.png",
-          unreadCount: 1,
-          index: 3,
-          lastMessage: {
-            content: "Last message received",
-            senderId: 1234,
-            username: "John Doe",
-            timestamp: "10:20",
-            saved: true,
-            distributed: false,
-            seen: true,
-            new: false,
-          },
-          users: [
-            {
-              _id: 1234,
-              username: "John Doe",
-              avatar: "assets/imgs/doe.png",
-              status: {
-                state: "online",
-                lastChanged: "today, 14:30",
-              },
-            },
-          ],
-        },
-      ],
-      messages: [],
-      currentUserId: 1234,
       signInFormFields,
       signUpformFields: [
         {
@@ -109,6 +72,16 @@ export default {
         ...signInFormFields,
       ],
     };
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.user,
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      setUser: MUTATION_TYPES.USER.SET_USER,
+    }),
   },
 };
 </script>

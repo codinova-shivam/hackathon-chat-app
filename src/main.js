@@ -7,6 +7,7 @@ import {
 
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
+import store from './store';
 
 Amplify.configure(awsconfig);
 
@@ -18,4 +19,5 @@ Vue.config.ignoredElements = [/amplify-\w*/];
 
 new Vue({
   render: (h) => h(App),
+  store
 }).$mount('#app');
