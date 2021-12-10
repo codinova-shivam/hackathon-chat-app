@@ -18,6 +18,11 @@ const mutations = {
         state.areFriendsLoading = false;
     },
 
+    [MUTATION_TYPES.ADD_FRIEND]: (state, friend) => {
+        state.friends = [...state.friends,new Friend(friend)];
+        state.areFriendsLoading = false;
+    },
+
     [MUTATION_TYPES.SET_FRIENDS_LOADING]: (state, areFriendsLoading) => {
         state.areFriendsLoading = areFriendsLoading;
     },
@@ -29,6 +34,17 @@ const actions = {
         try {
           const {data:friends} = await FriendService.getAll()
           commit(MUTATION_TYPES.SET_FRIENDS, friends)
+          return Promise.resolve()
+        } catch (error) {
+          commit(MUTATION_TYPES.SET_FRIENDS_LOADING, false)
+          return Promise.reject(error)
+        }
+      },
+      async addFriends({ commit },mobile) {
+        commit(MUTATION_TYPES.SET_FRIENDS_LOADING, true)
+        try {
+          const {data:friend} = await FriendService.add(mobile)
+          commit(MUTATION_TYPES.ADD_FRIEND, friend)
           return Promise.resolve()
         } catch (error) {
           commit(MUTATION_TYPES.SET_FRIENDS_LOADING, false)

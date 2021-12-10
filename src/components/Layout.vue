@@ -6,7 +6,12 @@
       :loading-rooms="areFriendsLoading"
       :rooms="friends"
       :rooms-loaded="!!friends.length"
-      @add-room="handleFriendAdd"
+      @add-room="handleAddFriendButtonClick"
+    />
+    <add-friend-modal
+      v-show="showAddFriendModal"
+      @close="handleAddFriendClose"
+      @save="handleAddFriend"
     />
   </div>
 </template>
@@ -17,10 +22,17 @@ import "vue-advanced-chat/dist/vue-advanced-chat.css";
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("user");
 import { CognitoAuth } from "../models";
+import AddFriendModal from "./AddFriendModal.vue";
 export default {
   name: "Layout",
+  data() {
+    return {
+      showAddFriendModal: false,
+    };
+  },
   components: {
     ChatWindow,
+    AddFriendModal,
   },
   computed: {
     ...mapState({
@@ -34,10 +46,18 @@ export default {
     await this.fetchFriends();
   },
   methods: {
-    ...mapActions(["fetchFriends"]),
-    handleFriendAdd(event){
-      console.log(event)
-    }
+    ...mapActions(["fetchFriends", "addFriends"]),
+    handleAddFriendButtonClick() {
+      this.showAddFriendModal = true;
+    },
+    handleAddFriendClose() {
+      this.showAddFriendModal = false;
+    },
+    async handleAddFriend(mobile) {
+      this.showAddFriendModal = false;
+
+      await this.addFriends(mobile);
+    },
   },
 };
 </script>

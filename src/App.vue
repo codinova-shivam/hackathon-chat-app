@@ -91,5 +91,11 @@ export default {
   --amplify-primary-tint: #598eff;
   --amplify-primary-shade: #563ee0;
 }
+.vac-room-header{
+  z-index: 0;
+}
+.vac-room-footer{
+  z-index: 0;
+}
 </style>
 
