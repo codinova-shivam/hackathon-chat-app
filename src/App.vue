@@ -1,5 +1,10 @@
 <template>
   <amplify-authenticator username-alias="phone_number">
+    <amplify-confirm-sign-up
+      slot="confirm-sign-up"
+      username-alias="phone_number"
+      :form-fields.prop="confirmSignUpFormFields"
+    ></amplify-confirm-sign-up>
     <amplify-sign-up
       slot="sign-up"
       username-alias="phone_number"
@@ -29,6 +34,7 @@ const resetPasswordFormFields = [
   {
     type: "phone_number",
     dialCode: "+91",
+    required:true
   },
 ];
 const signInFormFields = [
@@ -71,6 +77,12 @@ export default {
         },
         ...signInFormFields,
       ],
+      confirmSignUpFormFields: [
+        ...resetPasswordFormFields,
+        {
+          type: "code",
+        },
+      ],
     };
   },
   computed: {
@@ -91,10 +103,10 @@ export default {
   --amplify-primary-tint: #598eff;
   --amplify-primary-shade: #563ee0;
 }
-.vac-room-header{
+.vac-room-header {
   z-index: 0;
 }
-.vac-room-footer{
+.vac-room-footer {
   z-index: 0;
 }
 </style>
