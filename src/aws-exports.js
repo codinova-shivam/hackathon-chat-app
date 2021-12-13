@@ -1,10 +1,10 @@
 export default {
     Auth: {
-      region: "ap-south-1",
-      userPoolId: "ap-south-1_hbEucu3hD",
-      userPoolWebClientId: "i3bsd38i8041173s8o5nf96l1",
+      region: "us-east-2",
+      userPoolId: "us-east-2_ZdZg2hrec",
+      userPoolWebClientId: "5paeb4mkf18tu3m72k2u8b143j",
       oauth: {
-        domain: "dev-hackathon-chat.auth.ap-south-1.amazoncognito.com",
+        domain: "dev-hackathon-chat.auth.us-east-2.amazoncognito.com",
         scope: [
           "phone",
           "email",
