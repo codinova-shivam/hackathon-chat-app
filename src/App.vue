@@ -1,10 +1,5 @@
 <template>
   <amplify-authenticator username-alias="phone_number">
-    <amplify-confirm-sign-up
-      slot="confirm-sign-up"
-      username-alias="phone_number"
-      :form-fields.prop="confirmSignUpFormFields"
-    ></amplify-confirm-sign-up>
     <amplify-sign-up
       slot="sign-up"
       username-alias="phone_number"
@@ -76,12 +71,6 @@ export default {
           label: "Name",
         },
         ...signInFormFields,
-      ],
-      confirmSignUpFormFields: [
-        ...resetPasswordFormFields,
-        {
-          type: "code",
-        },
       ],
     };
   },
