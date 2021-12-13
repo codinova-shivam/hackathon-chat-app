@@ -61,7 +61,7 @@ export default {
     this.connection = new WebSocket(
       `wss://kmeod0w4za.execute-api.us-east-2.amazonaws.com/dev?Auth=${CognitoAuth.acessToken}`
     );
-    this.connection.clo = (event) => {
+    this.connection.onmessage = (event) => {
       const messages = JSON.parse(event.data);
       this.setMessages(messages);
     };
