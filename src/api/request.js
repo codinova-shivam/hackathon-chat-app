@@ -3,7 +3,7 @@ import { CognitoAuth } from "../models/cognito";
 
 export const axios = axiosRaw.create({
   crossDomain: true,
-  baseURL: 'https://7g8yktqir9.execute-api.ap-south-1.amazonaws.com/dev'
+  baseURL: 'https://9b9q2d8jt1.execute-api.us-east-2.amazonaws.com/dev'
 });
 
 axios.interceptors.request.use(async config => {

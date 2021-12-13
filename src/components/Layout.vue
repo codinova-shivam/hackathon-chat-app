@@ -56,7 +56,7 @@ export default {
   async created() {
     await CognitoAuth.refreshToken();
     this.connection = new WebSocket(
-      `wss://2ax2duqie0.execute-api.ap-south-1.amazonaws.com/dev?Auth=${CognitoAuth.acessToken}`
+      `wss://kmeod0w4za.execute-api.us-east-2.amazonaws.com/dev?Auth=${CognitoAuth.acessToken}`
     );
     this.connection.onmessage = (event) => {
       const messages = JSON.parse(event.data);
