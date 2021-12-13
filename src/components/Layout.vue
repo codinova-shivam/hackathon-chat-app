@@ -53,12 +53,15 @@ export default {
       areMessagesLoaded: (state) => state.areMessagesLoaded,
     }),
   },
+  destroyed(){
+    this.connection.close()
+  },
   async created() {
     await CognitoAuth.refreshToken();
     this.connection = new WebSocket(
       `wss://kmeod0w4za.execute-api.us-east-2.amazonaws.com/dev?Auth=${CognitoAuth.acessToken}`
     );
-    this.connection.onmessage = (event) => {
+    this.connection.clo = (event) => {
       const messages = JSON.parse(event.data);
       this.setMessages(messages);
     };
