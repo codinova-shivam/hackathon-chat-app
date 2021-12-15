@@ -28,7 +28,6 @@ import { onAuthUIStateChange } from "@aws-amplify/ui-components";
 const resetPasswordFormFields = [
   {
     type: "phone_number",
-    dialCode: "+91",
     required:true
   },
 ];
